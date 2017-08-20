@@ -9,10 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import me.ybleeho.dao.CommentDao;
 import me.ybleeho.dao.ArticalDao;
 import me.ybleeho.dao.ArticalTypeDao;
 import me.ybleeho.model.Artical;
 import me.ybleeho.model.PageBean;
+import me.ybleeho.model.Comment;
 import me.ybleeho.util.DbUtil;
 import me.ybleeho.util.NavUtil;
 import me.ybleeho.util.PageUtil;
@@ -29,6 +31,7 @@ public class ArticalServlet extends HttpServlet{
 	DbUtil dbUtil=new DbUtil();
 	ArticalDao articalDao=new ArticalDao();
 	ArticalTypeDao articalTypeDao=new ArticalTypeDao();
+	CommentDao commentDao=new CommentDao();
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -91,6 +94,10 @@ public class ArticalServlet extends HttpServlet{
 			con=dbUtil.getCon();
 			articalDao.articalClick(con, articalId);
 			Artical artical=articalDao.getArticalById(con, articalId);
+			Comment s_comment=new Comment();
+			s_comment.setArticalId(Integer.parseInt(articalId));
+			List<Comment> commentList=commentDao.commentList(con, s_comment);
+			request.setAttribute("commentList", commentList);
 			request.setAttribute("artical", artical);
 			request.setAttribute("pageCode", this.genUpAndDownPageCode(articalDao.getUpAndDownPageId(con, articalId)));
 			request.setAttribute("navCode", NavUtil.genArticalNavigation(artical.getTypeName(), artical.getTypeId()+"",artical.getTitle()));

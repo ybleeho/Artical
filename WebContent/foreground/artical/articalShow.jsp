@@ -20,3 +20,26 @@
 		${pageCode }
 	</div>
 </div>
+
+<div class="data_list comment_list"> 
+	<div class="dataHeader">댓글</div>
+	<div class="commentDatas">
+		<c:forEach var="comment" items="${commentList }">
+			<div class="comment">
+				<font>${comment.userIP }：</font>${comment.content }&nbsp;&nbsp;&nbsp;[&nbsp;<fmt:formatDate value="${comment.commentDate }" type="date" pattern="yyyy-MM-dd HH:mm:ss"/>&nbsp;]
+			</div>
+		</c:forEach>
+	</div>
+</div>
+
+<div class="publish_list">
+	<form action="comment?action=save" method="post">
+		<div>
+			<input type="hidden" value="${artical.articalId }" id="articalId" name="articalId"/>
+			<textarea style="width: 98%" rows="3" id="content" name="content"></textarea>
+		</div>
+		<div class="publishButton">
+			<button class="btn btn-primary" type="submit">댓글달기</button>
+		</div>
+	</form>
+</div>

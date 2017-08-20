@@ -36,4 +36,14 @@
     <servlet-name>articalServlet</servlet-name>
     <url-pattern>/artical</url-pattern>
   </servlet-mapping>
-</web-app>
+  
+  <servlet>
+  	<servlet-name>commentServlet</servlet-name>
+  	<servlet-class>me.ybleeho.web.CommentServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>commentServlet</servlet-name>
+  	<url-pattern>/comment</url-pattern>
+  </servlet-mapping>
+ </web-app>
