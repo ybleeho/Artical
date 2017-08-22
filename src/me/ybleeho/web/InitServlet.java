@@ -1,5 +1,6 @@
 package me.ybleeho.web;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.util.List;
 
@@ -7,12 +8,18 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import net.sf.json.JSONObject;
 
 import me.ybleeho.dao.ArticalDao;
 import me.ybleeho.dao.ArticalTypeDao;
 import me.ybleeho.model.Artical;
 import me.ybleeho.model.ArticalType;
 import me.ybleeho.util.DbUtil;
+import me.ybleeho.util.ResponseUtil;
 
 public class InitServlet extends HttpServlet{
 
@@ -58,5 +65,27 @@ public class InitServlet extends HttpServlet{
 		}
 	}
 	
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		this.doPost(request, response);
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		HttpSession session=request.getSession();
+		ServletContext application=session.getServletContext();
+		this.refreshSystem(application);
+		JSONObject result=new JSONObject();
+		result.put("success", true);
+		try {
+			ResponseUtil.write(result, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 
 }

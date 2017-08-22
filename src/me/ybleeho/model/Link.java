@@ -8,6 +8,18 @@ public class Link {
 	private String linkEmail;
 	private int orderNum;
 	
+	public Link(String linkName, String linkUrl, String linkEmail, int orderNum) {
+		super();
+		this.linkName = linkName;
+		this.linkUrl = linkUrl;
+		this.linkEmail = linkEmail;
+		this.orderNum = orderNum;
+	}
+	public Link() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
 	public int getLinkId() {
 		return linkId;
 	}

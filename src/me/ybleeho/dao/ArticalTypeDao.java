@@ -34,4 +34,26 @@ public class ArticalTypeDao {
 		}
 		return articalType;
 	}
+	
+	public int articalTypeAdd(Connection con,ArticalType articalType)throws Exception{
+		String sql="insert into t_articalType values(null,?)";
+		PreparedStatement pstmt=con.prepareStatement(sql);
+		pstmt.setString(1, articalType.getTypeName());
+		return pstmt.executeUpdate();
+	}
+	
+	public int articalTypeUpdate(Connection con,ArticalType articalType)throws Exception{
+		String sql="update t_articalType set typeName=? where articalTypeId=?";
+		PreparedStatement pstmt=con.prepareStatement(sql);
+		pstmt.setString(1, articalType.getTypeName());
+		pstmt.setInt(2, articalType.getArticalTypeId());
+		return pstmt.executeUpdate();
+	}
+	
+	public int articalTypeDelete(Connection con,String articalTypeId)throws Exception{
+		String sql="delete from t_articalType where articalTypeId=?";
+		PreparedStatement pstmt=con.prepareStatement(sql);
+		pstmt.setString(1, articalTypeId);
+		return pstmt.executeUpdate();
+	}
 }

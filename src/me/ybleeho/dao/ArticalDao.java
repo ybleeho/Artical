@@ -9,9 +9,11 @@ import java.util.List;
 import me.ybleeho.model.Artical;
 import me.ybleeho.util.DateUtil;
 import me.ybleeho.util.PropertiesUtil;
+import me.ybleeho.util.StringUtil;
 import me.ybleeho.model.PageBean;
 
 public class ArticalDao {
+	
 	public List<Artical> articalList(Connection con,String sql)throws Exception{
 		List<Artical> articalList=new ArrayList<Artical>();
 		PreparedStatement pstmt=con.prepareStatement(sql);
@@ -32,11 +34,21 @@ public class ArticalDao {
 		}
 		return articalList;
 	}
-	public List<Artical> articalList(Connection con,Artical s_artical,PageBean pageBean)throws Exception{
+	
+	public List<Artical> articalList(Connection con,Artical s_artical,PageBean pageBean,String s_bPublishDate,String s_aPublishDate)throws Exception{
 		List<Artical> articalList=new ArrayList<Artical>();
 		StringBuffer sb=new StringBuffer("select * from t_artical t1,t_articalType t2 where t1.typeId=t2.articalTypeId ");
 		if(s_artical.getTypeId()!=-1){
 			sb.append(" and t1.typeId="+s_artical.getTypeId());
+		}
+		if(StringUtil.isNotEmpty(s_artical.getTitle())){
+			sb.append(" and t1.title like '%"+s_artical.getTitle()+"%'");
+		}
+		if(StringUtil.isNotEmpty(s_bPublishDate)){
+			sb.append(" and TO_DAYS(t1.publishDate)>=TO_DAYS('"+s_bPublishDate+"')");
+		}
+		if(StringUtil.isNotEmpty(s_aPublishDate)){
+			sb.append(" and TO_DAYS(t1.publishDate)<=TO_DAYS('"+s_aPublishDate+"')");
 		}
 		sb.append(" order by t1.publishDate desc ");
 		if(pageBean!=null){
@@ -52,6 +64,7 @@ public class ArticalDao {
 			artical.setPublishDate(DateUtil.formatString(rs.getString("publishDate"), "yyyy-MM-dd HH:mm:ss"));
 			artical.setAuthor(rs.getString("author"));
 			artical.setTypeId(rs.getInt("typeId"));
+			artical.setTypeName(rs.getString("typeName"));
 			artical.setClick(rs.getInt("click"));
 			artical.setIsHead(rs.getInt("isHead"));
 			artical.setImageName(PropertiesUtil.getValue("userImage")+rs.getString("imageName"));
@@ -61,10 +74,20 @@ public class ArticalDao {
 		return articalList;
 	}
 	
-	public int articalCount(Connection con,Artical s_artical)throws Exception{
+	
+	public int articalCount(Connection con,Artical s_artical,String s_bPublishDate,String s_aPublishDate)throws Exception{
 		StringBuffer sb=new StringBuffer("select count(*) as total from t_artical");
 		if(s_artical.getTypeId()!=-1){
 			sb.append(" and typeId="+s_artical.getTypeId());
+		}
+		if(StringUtil.isNotEmpty(s_artical.getTitle())){
+			sb.append(" and title like '%"+s_artical.getTitle()+"%'");
+		}
+		if(StringUtil.isNotEmpty(s_bPublishDate)){
+			sb.append(" and TO_DAYS(publishDate)>=TO_DAYS('"+s_bPublishDate+"')");
+		}
+		if(StringUtil.isNotEmpty(s_aPublishDate)){
+			sb.append(" and TO_DAYS(publishDate)<=TO_DAYS('"+s_aPublishDate+"')");
 		}
 		PreparedStatement pstmt=con.prepareStatement(sb.toString().replaceFirst("and", "where"));
 		ResultSet rs=pstmt.executeQuery();
@@ -126,5 +149,55 @@ public class ArticalDao {
 			upAndDownPage.add(new Artical(-1,""));
 		}
 		return upAndDownPage;
+	}
+	
+	
+	public boolean existArticalWithArticalTypeId(Connection con,String typeId)throws Exception{
+		String sql="select * from t_artical where typeId=?";
+		PreparedStatement pstmt=con.prepareStatement(sql);
+		pstmt.setString(1, typeId);
+		ResultSet rs=pstmt.executeQuery();
+		if(rs.next()){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	public int articalAdd(Connection con,Artical artical)throws Exception{
+		String sql="insert into t_artical values(null,?,?,now(),?,?,0,?,?,?,?)";
+		PreparedStatement pstmt=con.prepareStatement(sql);
+		pstmt.setString(1, artical.getTitle());
+		pstmt.setString(2, artical.getContent());
+		pstmt.setString(3, artical.getAuthor());
+		pstmt.setInt(4, artical.getTypeId());
+		pstmt.setInt(5, artical.getIsHead());
+		pstmt.setInt(6, artical.getIsImage());
+		pstmt.setString(7, artical.getImageName());
+		pstmt.setInt(8, artical.getIsHot());
+		return pstmt.executeUpdate();
+	}
+	
+	public int articalUpdate(Connection con,Artical artical)throws Exception{
+		String sql="update t_artical set title=?,content=?,author=?,typeId=?,isHead=?,isImage=?,imageName=?,isHot=? where articalId=?";
+		PreparedStatement pstmt=con.prepareStatement(sql);
+		pstmt.setString(1, artical.getTitle());
+		pstmt.setString(2, artical.getContent());
+		pstmt.setString(3, artical.getAuthor());
+		pstmt.setInt(4, artical.getTypeId());
+		pstmt.setInt(5, artical.getIsHead());
+		pstmt.setInt(6, artical.getIsImage());
+		pstmt.setString(7, artical.getImageName());
+		pstmt.setInt(8, artical.getIsHot());
+		pstmt.setInt(9, artical.getArticalId());
+		return pstmt.executeUpdate();
+	}
+	
+
+	public int articalDelete(Connection con,String articalId)throws Exception{
+		String sql="delete from t_artical where articalId=?";
+		PreparedStatement pstmt=con.prepareStatement(sql);
+		pstmt.setString(1, articalId);
+		return pstmt.executeUpdate();
 	}
 }

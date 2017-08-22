@@ -46,4 +46,36 @@
   	<servlet-name>commentServlet</servlet-name>
   	<url-pattern>/comment</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>userServlet</servlet-name>
+  	<servlet-class>me.ybleeho.web.UserServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>userServlet</servlet-name>
+  	<url-pattern>/user</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>linkServlet</servlet-name>
+  	<servlet-class>me.ybleeho.web.LinkServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>linkServlet</servlet-name>
+  	<url-pattern>/link</url-pattern>
+  </servlet-mapping>
+  
+  
+    <servlet>
+  	<servlet-name>articalTypeServlet</servlet-name>
+  	<servlet-class>me.ybleeho.web.ArticalTypeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>articalTypeServlet</servlet-name>
+  	<url-pattern>/articalType</url-pattern>
+  </servlet-mapping>
+  
+  
+  
  </web-app>

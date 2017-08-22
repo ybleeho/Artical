@@ -5,6 +5,15 @@ public class ArticalType {
 	private int articalTypeId;
 	private String typeName;
 	
+	
+	public ArticalType() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public ArticalType(String typeName) {
+		super();
+		this.typeName = typeName;
+	}
 	public int getArticalTypeId() {
 		return articalTypeId;
 	}

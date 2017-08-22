@@ -9,9 +9,15 @@ public class Comment {
 	private String content;
 	private String userIP;
 	private Date commentDate;
+	private String articalTitle;
 	
 	
-	
+	public String getArticalTitle() {
+		return articalTitle;
+	}
+	public void setArticalTitle(String articalTitle) {
+		this.articalTitle = articalTitle;
+	}
 	public Comment(int articalId, String content, String userIP){
 		super();
 		this.articalId = articalId;
