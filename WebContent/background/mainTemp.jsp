@@ -14,7 +14,7 @@
 <script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.js"></script>
 
 <script src="${pageContext.request.contextPath}/js/My97DatePicker/WdatePicker.js"></script>
-<script src="${pageContext.request.contextPath}/js/My97DatePicker/WdatePicker.js"></script>
+<script src="${pageContext.request.contextPath}/js/ckeditor/ckeditor.js"></script>
 <%
 	String mainPage=(String)request.getAttribute("mainPage");
 	if(mainPage==null || mainPage.equals("")){
