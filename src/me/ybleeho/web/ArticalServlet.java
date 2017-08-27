@@ -3,8 +3,8 @@ package me.ybleeho.web;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,17 +22,17 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import me.ybleeho.dao.CommentDao;
 import me.ybleeho.dao.ArticalDao;
 import me.ybleeho.dao.ArticalTypeDao;
+import me.ybleeho.model.Comment;
 import me.ybleeho.model.Artical;
 import me.ybleeho.model.ArticalType;
 import me.ybleeho.model.PageBean;
-import me.ybleeho.model.Comment;
-import me.ybleeho.util.DbUtil;
 import me.ybleeho.util.DateUtil;
+import me.ybleeho.util.DbUtil;
 import me.ybleeho.util.NavUtil;
 import me.ybleeho.util.PageUtil;
 import me.ybleeho.util.PropertiesUtil;
-import me.ybleeho.util.StringUtil;
 import me.ybleeho.util.ResponseUtil;
+import me.ybleeho.util.StringUtil;
 
 public class ArticalServlet extends HttpServlet{
 
@@ -89,8 +89,8 @@ public class ArticalServlet extends HttpServlet{
 			con=dbUtil.getCon();
 			int total=articalDao.articalCount(con, s_artical,null,null);
 			PageBean pageBean=new PageBean(Integer.parseInt(page),Integer.parseInt(PropertiesUtil.getValue("pageSize")));
-			List<Artical> newestArticalListWithType=articalDao.articalList(con, s_artical, pageBean,null,null);
-			request.setAttribute("newestArticalListWithType", newestArticalListWithType);
+			List<Artical> newestarticalListWithType=articalDao.articalList(con, s_artical, pageBean,null,null);
+			request.setAttribute("newestarticalListWithType", newestarticalListWithType);
 			request.setAttribute("navCode", NavUtil.genArticalListNavigation(articalTypeDao.getArticalTypeById(con, typeId).getTypeName(), typeId));
 			request.setAttribute("pageCode", PageUtil.getUpAndDownPagation(total, Integer.parseInt(page), Integer.parseInt(PropertiesUtil.getValue("pageSize")), typeId));
 			request.setAttribute("mainPage", "artical/articalList.jsp");
@@ -137,18 +137,18 @@ public class ArticalServlet extends HttpServlet{
 	}
 	
 	private String genUpAndDownPageCode(List<Artical> upAndDownPage){
-		Artical upArtical=upAndDownPage.get(0);
-		Artical downArtical=upAndDownPage.get(1);
+		Artical upartical=upAndDownPage.get(0);
+		Artical downartical=upAndDownPage.get(1);
 		StringBuffer pageCode=new StringBuffer();
-		if(upArtical.getArticalId()==-1){
-			pageCode.append("<p>이전글：-</p>");
+		if(upartical.getArticalId()==-1){
+			pageCode.append("<p>이전글:없음</p>");
 		}else{
-			pageCode.append("<p>이전글：<a href='artical?action=show&articalId="+upArtical.getArticalId()+"'>"+upArtical.getTitle()+"</a></p>");
+			pageCode.append("<p>이전글:<a href='artical?action=show&articalId="+upartical.getArticalId()+"'>"+upartical.getTitle()+"</a></p>");
 		}
-		if(downArtical.getArticalId()==-1){
-			pageCode.append("<p>다음글：-</p>");
+		if(downartical.getArticalId()==-1){
+			pageCode.append("<p>다음글:없음</p>");
 		}else{
-			pageCode.append("<p>다음글：<a href='artical?action=show&articalId="+downArtical.getArticalId()+"'>"+downArtical.getTitle()+"</a></p>");
+			pageCode.append("<p>다음글:<a href='artical?action=show&articalId="+downartical.getArticalId()+"'>"+downartical.getTitle()+"</a></p>");
 		}
 		return pageCode.toString();
 	}
@@ -167,7 +167,7 @@ public class ArticalServlet extends HttpServlet{
 			List<ArticalType> articalTypeList=articalTypeDao.articalTypeList(con);
 			request.setAttribute("articalTypeList", articalTypeList);
 			if(StringUtil.isNotEmpty(articalId)){
-				request.setAttribute("navCode", NavUtil.genArticalManageNavigation("문장관리", "문장변경"));				
+				request.setAttribute("navCode", NavUtil.genArticalManageNavigation("문장관리", "문장점검"));				
 			}else{
 				request.setAttribute("navCode", NavUtil.genArticalManageNavigation("문장관리", "문장추가"));				
 			}
@@ -185,6 +185,8 @@ public class ArticalServlet extends HttpServlet{
 		}
 	}
 	
+	
+	@SuppressWarnings("unchecked")
 	private void articalSave(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		FileItemFactory factory=new DiskFileItemFactory();
@@ -196,17 +198,12 @@ public class ArticalServlet extends HttpServlet{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Iterator itr=items.iterator();
+		Iterator<FileItem> itr=items.iterator();
 		Artical artical=new Artical();
 		while(itr.hasNext()){
-			FileItem item=(FileItem) itr.next();
+			FileItem item=itr.next();
 			if(item.isFormField()){
 				String fieldName=item.getFieldName();
-				if("articalId".equals(fieldName)){
-					if(StringUtil.isNotEmpty(item.getString("utf-8"))){
-						artical.setArticalId(Integer.parseInt(item.getString("utf-8")));
-					}
-				}
 				if("title".equals(fieldName)){
 					artical.setTitle(item.getString("utf-8"));
 				}
@@ -228,11 +225,6 @@ public class ArticalServlet extends HttpServlet{
 				if("isHot".equals(fieldName)){
 					artical.setIsHot(Integer.parseInt(item.getString("utf-8")));
 				}
-				if("imageName".equals(fieldName)&&artical.getImageName()==null){
-					if(StringUtil.isNotEmpty(item.getString("utf-8"))){
-						artical.setImageName(item.getString("utf-8").split("/")[1]);
-					}
-				}
 			}else if(!"".equals(item.getName())){
 				try {
 					String imageName=DateUtil.getCurrentDateStr();
@@ -243,9 +235,9 @@ public class ArticalServlet extends HttpServlet{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			
 			}
 		}
-		
 		
 		Connection con=null;
 		try{

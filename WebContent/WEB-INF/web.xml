@@ -76,6 +76,17 @@
   	<url-pattern>/articalType</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>imageUpload</servlet-name>
+  	<servlet-class>me.ybleeho.web.ImageUploadServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>imageUpload</servlet-name>
+  	<url-pattern>/imageUpload</url-pattern>
+  </servlet-mapping>
+  
+  
   
   
  </web-app>

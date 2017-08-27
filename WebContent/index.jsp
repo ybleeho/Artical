@@ -24,7 +24,7 @@
 				<A href="" target="_blank"><IMG style="width: 330px; height: 208px;" id="fou_img" src=""></A>
 					<c:forEach var="imageArtical" items="${imageArticalList}">
 						<A href="artical?action=show&articalId=${imageArtical.articalId }"> 
-							<IMG style="display: none;" class="tu_img" src="${imageArtical.imageName }" width="330" height="208" />
+							<IMG style="display: none;" class="tu_img" src="${imageArtical.imageName}" width="330" height="208" />
 						</A>
 					</c:forEach>
 					<c:forEach var="imageArtical" items="${imageArticalList}">

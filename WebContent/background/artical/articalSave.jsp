@@ -101,6 +101,7 @@
 					</td>
 					<td>
 						<input type="file" id="picFile" name="picFile" />
+						
 					</td>
 				</tr>
 				<tr>
