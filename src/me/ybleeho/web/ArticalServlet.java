@@ -307,18 +307,21 @@ public class ArticalServlet extends HttpServlet{
 	
 	private void articalDelete(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException{
-		String articalId=request.getParameter("articalId");
+		String articalIds=request.getParameter("articalIds");
 		Connection con=null;
-		boolean delFlag;
 		try{
 			con=dbUtil.getCon();
-			int delNums=articalDao.articalDelete(con, articalId);
-			if(delNums==1){
-				delFlag=true;
+			int delNums=articalDao.articalDelete(con, articalIds);
+			System.out.println(delNums);
+			commentDao.articalcommentDelete(con, articalIds);
+			JSONObject result=new JSONObject();
+			if(delNums>0){
+				result.put("success", true);
+				result.put("delNums", delNums);
 			}else{
-				delFlag=false;
+				result.put("errorMsg", "문장삭제실패");
 			}
-			ResponseUtil.write(delFlag, response);
+			ResponseUtil.write(result, response);
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally{

@@ -44,19 +44,19 @@
 	<div class="span3">
 		<div class="newsMenu">
 			<ul class="nav nav-tabs nav-stacked">
-				  <li><a href=""><strong>홈 페이지</strong></a></li>
-				  <li><a href=""><strong>문장관리</strong></a></li>
+				  <li><a href="#"><strong>홈 페이지</strong></a></li>
+				  <li><a href="#"><strong>문장관리</strong></a></li>
 				  <li><a href="${pageContext.request.contextPath}/artical?action=preSave">&nbsp;&nbsp;문장추가</a></li>
 				  <li><a href="${pageContext.request.contextPath}/artical?action=backList">&nbsp;&nbsp;문장점검</a></li>
-				  <li><a href=""><strong>댓글관리</strong></a></li>
+				  <li><a href="#"><strong>댓글관리</strong></a></li>
 				  <li><a href="${pageContext.request.contextPath}/comment?action=backList">&nbsp;&nbsp;댓글점검</a></li>
-				  <li><a href=""><strong>문장종류관리</strong></a></li>
+				  <li><a href="#"><strong>문장종류관리</strong></a></li>
 				  <li><a href="${pageContext.request.contextPath}/articalType?action=preSave">&nbsp;&nbsp;문장종류추가</a></li>
 				  <li><a href="${pageContext.request.contextPath}/articalType?action=backList">&nbsp;&nbsp;문장종류점검</a></li>
-				  <li><a href=""><strong>핫링크관리</strong></a></li>
+				  <li><a href="#"><strong>핫링크관리</strong></a></li>
 				  <li><a href="${pageContext.request.contextPath}/link?action=preSave">&nbsp;&nbsp;핫링크추가</a></li>
 				  <li><a href="${pageContext.request.contextPath}/link?action=backList">&nbsp;&nbsp;핫링크점검</a></li>
-				  <li><a href=""><strong>시스템관리</strong></a></li>
+				  <li><a href="#"><strong>시스템관리</strong></a></li>
 				  <li><a href="javascript:refreshSystem()">&nbsp;&nbsp;서버캐시갱신</a></li>
 			</ul>
 		</div>

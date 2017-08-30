@@ -7,10 +7,10 @@
 <script type="text/javascript">
 function articalDelete(articalId){
 	if(confirm("이문장을 삭제하시겠나요？")){
-		$.post("artical?action=delete",{articalId:articalId},
-			function(delFlag){
-				var flag=eval('('+delFlag+')');
-				if(flag){
+		$.post("artical?action=delete",{articalIds:articalId},
+			function(result){
+				var flag=eval('('+result+')');
+				if(result){
 					alert("삭제성공!");
 					window.location.href="${pageContext.request.contextPath}/artical?action=backList";
 				}else{
@@ -20,6 +20,42 @@ function articalDelete(articalId){
 		);
 	}
 }
+
+function articalsDelete(){
+	var chk_value=[];
+	$('input[name="articalIds"]:checked').each(function(){
+		chk_value.push($(this).val());
+	});
+	if(chk_value.length==0){
+		alert("삭제 할 문장을 선택해주십시오");
+		return;
+	}
+	var articalIds=chk_value.join(",");
+	if(confirm("이 댓글들을 삭제하시겠습니까？")){
+		$.post("artical?action=delete",{articalIds:articalIds},
+			function(result){
+				var result=eval('('+result+')');
+				if(result.success){
+					alert(+result.delNums+"문장을 삭제성공");
+					window.location.href="${pageContext.request.contextPath}/artical?action=backList";
+				}else{
+					alert(result.errorMsg);
+				}
+			}
+		);
+	}
+}
+
+$(document).ready(function(){
+	$("#checkedAll").click(function(){
+		if($(this).prop("checked")==true){
+			$("input[name='articalIds']").prop("checked",true);
+		}else{
+			$("input[name='articalIds']").prop("checked",false);
+		}
+	});
+	
+});
 </script>
 <body>
 <div class="data_list backMain">
@@ -27,6 +63,9 @@ function articalDelete(articalId){
 		${navCode}
 	</div>
 	<div class="search_content" style="vertical-align: middle;">
+		<div style="float: left;padding-top: 10px;">
+			<button class="btn btn-mini btn-danger" type="button" onclick="articalsDelete()">대량삭제</button>&nbsp&nbsp
+		</div>
 		<form action="${pageContext.request.contextPath}/artical?action=backList" method="post">
 			ArticalTitle：<input type="text" id="s_title" name="s_title" style="width:180px" value="${s_title }"/>&nbsp;&nbsp;
 			PubDate：<input type="text" id="s_bPublishDate" name="s_bPublishDate" class="Wdate" onclick="WdatePicker()" style="width: 100px;" value="${s_bPublishDate }"/>
@@ -34,6 +73,7 @@ function articalDelete(articalId){
 			&nbsp;&nbsp;<button class="btn btn-mini btn-primary" type="submit" style="margin-top: -8px;">검색</button>
 		</form>
 	</div>
+	
 	<div class="data_content">
 		<table class="table table-hover table-bordered">
 			<tr>

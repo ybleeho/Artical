@@ -5,13 +5,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-<link href="${pageContext.request.contextPath}/style/artical.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-<script src="${pageContext.request.contextPath}/bootstrap/js/jQuery.js"></script>
-<script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Insert title here</title>
+	<link href="${pageContext.request.contextPath}/style/artical.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+	<script src="${pageContext.request.contextPath}/bootstrap/js/jQuery.js"></script>
+	<script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.js"></script>
 </head>
 <body>
 <div class="container">
@@ -31,12 +31,14 @@
 						<P style="height: 20px;" class="tc"><A href="artical?action=show&articalId=${imageArtical.articalId }" target="_blank" title="${imageArtical.title }">${fn:substring(imageArtical.title,0,18) }</A></P>
 					</c:forEach>
 
-<UL>
-  <LI class="fouce">1</LI>
-  <LI>2</LI>
-  <LI>3</LI>
-  <LI>4</LI>
-  <LI>5</LI></UL></DIV>
+					<UL>
+  						<LI class="fouce">1</LI>
+  						<LI>2</LI>
+  						<LI>3</LI>
+  						<LI>4</LI>
+  						<LI>5</LI>
+  					</UL>
+  			</DIV>
 			
 		</div>
 		<div class="articalHeader_list">

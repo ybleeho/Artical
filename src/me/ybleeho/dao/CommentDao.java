@@ -81,5 +81,10 @@ public class CommentDao {
 		PreparedStatement pstmt=con.prepareStatement(sql);
 		return pstmt.executeUpdate();
 	}
+	public int articalcommentDelete(Connection con,String articalIds)throws Exception{
+		String sql="delete from t_comment where articalId in ("+articalIds+")";
+		PreparedStatement pstmt=con.prepareStatement(sql);
+		return pstmt.executeUpdate();
+	}
 }
 
